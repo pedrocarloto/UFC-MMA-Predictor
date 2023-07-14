@@ -548,7 +548,7 @@ def set_f1_fighter_value(options):
     Output('f2-fighter', 'options'),
     [Input('f2-weightclass', 'value')]
 )
-def set_f1_fighter(weightclasses):
+def set_f2_fighter(weightclasses):
     return [{'label': i, 'value': i} for i in
             fighters_db[fighters_db['WeightClass'] == weightclasses]['NAME'].sort_values()]
 
@@ -659,9 +659,9 @@ def update_f1_proba(nclicks, f1, f2, f1_odds, f2_odds):
 
     if nclicks > 0:
         cols = ['SLPM', 'SAPM', 'STRD', 'TD']
-        y = fighters_db[fighters_db['NAME'] == f1][cols].append(
-            fighters_db[fighters_db['NAME'] == f2][cols], ignore_index=True)
-        
+        y = fighters_db[fighters_db['NAME'] == f1][cols].copy()
+        y = pd.concat([y, fighters_db[fighters_db['NAME'] == f2][cols]], ignore_index=True)
+
         try:
             float(f1_odds)
             float(f2_odds)
@@ -688,22 +688,20 @@ def update_f1_proba(nclicks, f1, f2, f1_odds, f2_odds):
 
 
 @app.callback(
-
     Output('f2-proba', 'children'),
     [Input('button', 'n_clicks')],
-     state=[State('f1-fighter', 'value'),
+    state=[State('f1-fighter', 'value'),
      State('f2-fighter', 'value'),
      State('f1-odds', 'value'),
      State('f2-odds', 'value')]
-
 )
 def update_f2_proba(nclicks, f1, f2, f1_odds, f2_odds):
 
     if nclicks > 0:
         cols = ['SLPM', 'SAPM', 'STRD', 'TD']
-        y = fighters_db[fighters_db['NAME'] == f1][cols].append(
-            fighters_db[fighters_db['NAME'] == f2][cols], ignore_index=True)
-        
+        y = fighters_db[fighters_db['NAME'] == f1][cols].copy()
+        y = pd.concat([y, fighters_db[fighters_db['NAME'] == f2][cols]], ignore_index=True)
+
         try:
             float(f1_odds)
             float(f2_odds)

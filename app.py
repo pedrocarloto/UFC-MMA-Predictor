@@ -33,10 +33,10 @@ from dash.dependencies import Input, Output, State
 
 # New fighters db data feed from morph.io
 # We're always asking for json because it's the easiest to deal with
-morph_api_url = "https://api.morph.io/jasonchanhku/ufc_fighters_db/data.json"
+morph_api_url = "https://api.morph.io/ufcmmaapp/scrape_ufc_mma_data/data.json"
 
 # Keep this key secret!
-morph_api_key = "mF/o1gYK/7iCHIu5h5Sw"
+morph_api_key = "Check your morph.io account"
 
 r = requests.get(morph_api_url, params={
   'key': morph_api_key,
@@ -172,7 +172,7 @@ app = dash.Dash(__name__)
 server = app.server
 
 app.layout = html.Div(style={'backgroundColor': colors['background'],
-                             'backgroundImage': 'url(https://github.com/jasonchanhku/UFC-MMA-Predictor/blob/master/Pictures/NOTORIOUS.jpg?raw=true)',
+                             'backgroundImage': 'url(/assets/pictures/NOTORIOUS.jpg)',
                              'backgroundRepeat': 'no-repeat',
                              'backgroundPosition': 'center top',
                              'backgroundSize': 'auto',
@@ -572,7 +572,7 @@ def set_image_f1(fighter1):
         fighter1 = 'Aleksei Oliynyk'
         
     #return get_fighter_url(fighter1)
-    return "https://github.com/jasonchanhku/UFC-MMA-Predictor/blob/master/Pictures/fighter_left.png?raw=true"
+    return "/assets/pictures/fighter_left.png"
 
 
 @app.callback(
@@ -585,7 +585,7 @@ def set_image_f2(fighter2):
         
     #return get_fighter_url(fighter2)
     
-    return "https://github.com/jasonchanhku/UFC-MMA-Predictor/blob/master/Pictures/fighter_right.png?raw=true"
+    return "/assets/pictures/right.png"
 
 
 @app.callback(
@@ -729,15 +729,13 @@ def update_f2_proba(nclicks, f1, f2, f1_odds, f2_odds):
     return delta_y
 
 
-app.css.append_css({"external_url": "https://ufcmmapredictor.s3-ap-southeast-1.amazonaws.com/ufcmmapredictor.css"})
+app.css.append_css({"external_url": "/assets/css/ufcmmapredictor.css"})
 
 app.title = 'UFC MMA Predictor'
 
 if 'DYNO' in os.environ:
     app.scripts.config.serve_locally = False
-    app.scripts.append_script({
-        'external_url': 'https://cdn.rawgit.com/jasonchanhku/UFC-MMA-Predictor/f6830a25/gtag.js'
-    })
+
 
 # add host = "0.0.0.0" and port = "8080" in dev mode
 if __name__ == "__main__":

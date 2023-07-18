@@ -585,7 +585,7 @@ def set_image_f2(fighter2):
         
     #return get_fighter_url(fighter2)
     
-    return "/assets/pictures/right.png"
+    return "/assets/pictures/fighter_right.png"
 
 
 @app.callback(
